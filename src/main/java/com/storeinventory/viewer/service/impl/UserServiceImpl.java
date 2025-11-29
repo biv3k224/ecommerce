@@ -5,6 +5,7 @@ import com.storeinventory.viewer.repository.UserRepository;
 import com.storeinventory.viewer.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,17 +17,23 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    // Constructor injection only for UserRepository
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    // Setter injection for PasswordEncoder
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
-
     public User createUser(User user) {
         log.info("Creating new user: {}", user.getUsername());
 
@@ -39,27 +46,29 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Email '" + user.getEmail() + "' is already registered");
         }
 
-        // DEBUG: Log password before encoding
-        log.info("DEBUG - Original password: '{}'", user.getPassword());
-
-        // Encode password
-        String rawPassword = user.getPassword();
-        String encodedPassword = passwordEncoder.encode(rawPassword);
-
-        // DEBUG: Log encoded password
-        log.info("DEBUG - Encoded password: '{}'", encodedPassword);
-        log.info("DEBUG - Password length: {}", encodedPassword.length());
-
-        user.setPassword(encodedPassword);
+        // Encode password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Set default role if not provided
         if (user.getRole() == null || user.getRole().isEmpty()) {
             user.setRole("ADMIN");
         }
 
-        User savedUser = userRepository.save(user);
-        log.info("User created successfully: {}", savedUser.getUsername());
-        return savedUser;
+        return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean validateUserCredentials(String username, String password) {
+        log.info("Validating credentials for user: {}", username);
+
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return passwordEncoder.matches(password, user.getPassword());
+        }
+
+        return false;
     }
 
     @Override
@@ -148,28 +157,5 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public boolean userExistsByEmail(String email) {
         return userRepository.existsByEmail(email);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean validateUserCredentials(String username, String password) {
-        log.info("=== DEBUG LOGIN ===");
-        log.info("Username attempt: '{}'", username);
-        log.info("Password attempt: '{}'", password);
-
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            log.info("Stored encoded password: '{}'", user.getPassword());
-            log.info("Stored password length: {}", user.getPassword().length());
-
-            boolean matches = passwordEncoder.matches(password, user.getPassword());
-            log.info("Password matches result: {}", matches);
-
-            return matches;
-        }
-
-        log.info("User not found in database");
-        return false;
     }
 }
