@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Inventory Viewer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-store"></i>
+                <span>StoreInventory</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#products" class="nav-link">Products</a>
+                <a href="#categories" class="nav-link">Categories</a>
+                <div class="auth-section">
+                    <button id="loginBtn" class="btn btn-outline">Admin Login</button>
+                    <button id="logoutBtn" class="btn btn-primary" style="display: none;">Logout</button>
+                    <span id="userWelcome" class="user-welcome" style="display: none;"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Store Inventory Management</h1>
+        <p>Browse our products or manage inventory as admin</p>
+        <div class="hero-buttons">
+            <button id="viewProductsBtn" class="btn btn-large btn-primary">View Products</button>
+            <button id="adminPanelBtn" class="btn btn-large btn-outline" style="display: none;">Admin Panel</button>
+        </div>
+    </div>
+</section>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Admin Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Login</button>
+        </form>
+        <div id="loginMessage" class="message"></div>
+    </div>
+</div>
+
+<!-- Products Section -->
+<section id="products" class="section">
+    <div class="container">
+        <h2>Our Products</h2>
+
+        <!-- Search and Filter -->
+        <div class="filters">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search products...">
+                <i class="fas fa-search"></i>
+            </div>
+            <select id="categoryFilter">
+                <option value="">All Categories</option>
+            </select>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="products-grid">
+            <!-- Products will be loaded here -->
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading products...</p>
+        </div>
+    </div>
+</section>
+
+<!-- Admin Panel (Hidden by default) -->
+<section id="adminPanel" class="section" style="display: none;">
+    <div class="container">
+        <h2>Admin Panel</h2>
+
+        <!-- Admin Controls -->
+        <div class="admin-controls">
+            <button id="addProductBtn" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New Product
+            </button>
+            <button id="refreshProductsBtn" class="btn btn-outline">
+                <i class="fas fa-sync"></i> Refresh
+            </button>
+        </div>
+
+        <!-- Admin Products Grid -->
+        <div id="adminProductsGrid" class="products-grid">
+            <!-- Admin products will be loaded here -->
+        </div>
+    </div>
+</section>
+
+<!-- Add/Edit Product Modal -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="productModalTitle">Add New Product</h2>
+        <form id="productForm">
+            <input type="hidden" id="productId">
+            <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" id="productName" required>
+            </div>
+            <div class="form-group">
+                <label for="productDescription">Description:</label>
+                <textarea id="productDescription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="productCategory">Category:</label>
+                <input type="text" id="productCategory" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="productPrice">Price:</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="productQuantity">Quantity:</label>
+                    <input type="number" id="productQuantity" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="productImage">Image URL:</label>
+                <input type="text" id="productImage">
+            </div>
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="productAvailable" checked>
+                    Available
+                </label>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Product</button>
+                <button type="button" class="btn btn-outline" id="cancelProductBtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2024 Store Inventory Viewer. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
