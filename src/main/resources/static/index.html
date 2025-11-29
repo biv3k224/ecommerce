@@ -1,170 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Pitstop Drive Thru - Fast, friendly convenience store in Austintown, Ohio. Cold drinks, beer, snacks & essentials. Drive-thru service since 2010.">
+    <meta name="keywords" content="drive thru, convenience store, Austintown, Ohio, cold drinks, beer, snacks, quick service">
+    <meta name="author" content="Pitstop Drive Thru">
+
+    <!-- Open Graph Meta Tags (for social media) -->
+    <meta property="og:title" content="Pitstop Drive Thru | Fast, Friendly, Convenient">
+    <meta property="og:description" content="Your local drive-thru for cold drinks, snacks, and essentials in Austintown, Ohio.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pitstopdrivethru.com">
+    <meta property="og:image" content="https://pitstopdrivethru.com/assets/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Store Inventory Viewer</title>
+    <title>Pitstop Drive Thru | Fast, Friendly, Convenient</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <!-- Header -->
-<header class="header">
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-store"></i>
-                <span>StoreInventory</span>
-            </div>
-            <div class="nav-menu">
-                <a href="#products" class="nav-link">Products</a>
-                <a href="#categories" class="nav-link">Categories</a>
-                <div class="auth-section">
-                    <button id="loginBtn" class="btn btn-outline">Admin Login</button>
-                    <button id="logoutBtn" class="btn btn-primary" style="display: none;">Logout</button>
-                    <span id="userWelcome" class="user-welcome" style="display: none;"></span>
-                </div>
-            </div>
-        </div>
-    </nav>
+<header>
+    <div class="container header-container">
+        <a href="#" class="logo">
+            <i class="fas fa-car-side"></i>
+            Pitstop Drive Thru
+        </a>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="nav-actions">
+                <button id="loginBtn" class="btn btn-outline">Admin</button>
+                <button id="logoutBtn" class="btn btn-outline" style="display: none;">Logout</button>
+                <span id="userWelcome" class="user-welcome" style="display: none;"></span>
+                <button id="adminPanelBtn" class="btn btn-primary" style="display: none;">Admin Panel</button>
+            </li>
+        </ul>
+    </div>
 </header>
 
 <!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <h1>Store Inventory Management</h1>
-        <p>Browse our products or manage inventory as admin</p>
+<section class="hero" id="home">
+    <div class="container">
+        <h1>Fast, Friendly, Convenient</h1>
+        <p>Your local drive-thru for cold drinks, snacks, and essentials. Stay in your car — quick in, quick out!</p>
         <div class="hero-buttons">
-            <button id="viewProductsBtn" class="btn btn-large btn-primary">View Products</button>
-            <button id="adminPanelBtn" class="btn btn-large btn-outline" style="display: none;">Admin Panel</button>
+            <a href="tel:(330) 792-2026" class="btn btn-primary">
+                <i class="fas fa-phone"></i> Call Now
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+                <i class="fas fa-map-marker-alt"></i> Get Directions
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Login Modal -->
-<div id="loginModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Admin Login</h2>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+<!-- Features Section -->
+<section>
+    <div class="container">
+        <h2 class="section-title">Why Choose Pitstop?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Lightning Fast</h3>
+                <p>Quick service so you can get back on the road in no time.</p>
             </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-smile"></i>
+                </div>
+                <h3>Friendly Staff</h3>
+                <p>Our local team is here to serve you with a smile.</p>
             </div>
-            <button type="submit" class="btn btn-primary btn-full">Login</button>
-        </form>
-        <div id="loginMessage" class="message"></div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h3>Great Prices</h3>
+                <p>Quality products at prices that won't break the bank.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <h3>Locally Owned</h3>
+                <p>Proudly serving Austintown for over a decade.</p>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 <!-- Products Section -->
-<section id="products" class="section">
+<section class="bg-light" id="products">
     <div class="container">
-        <h2>Our Products</h2>
+        <h2 class="section-title">Our Selection</h2>
 
-        <!-- Search and Filter -->
-        <div class="filters">
+        <!-- Products Filters -->
+        <div class="products-filters">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search products...">
                 <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search products...">
             </div>
-            <select id="categoryFilter">
+            <select id="categoryFilter" class="category-filter">
                 <option value="">All Categories</option>
             </select>
         </div>
 
         <!-- Products Grid -->
-        <div id="productsGrid" class="products-grid">
+        <div class="products-grid" id="productsGrid">
             <!-- Products will be loaded here -->
         </div>
 
-        <!-- Loading Spinner -->
-        <div id="loading" class="loading">
-            <i class="fas fa-spinner fa-spin"></i>
-            <p>Loading products...</p>
+        <!-- Load More Button -->
+        <div class="load-more-container">
+            <button id="loadMoreBtn" class="btn btn-outline">Load More</button>
         </div>
     </div>
 </section>
 
-<!-- Admin Panel (Hidden by default) -->
-<section id="adminPanel" class="section" style="display: none;">
+<!-- Admin Panel -->
+<div id="adminPanel" class="admin-panel" style="display: none;">
     <div class="container">
-        <h2>Admin Panel</h2>
+        <div class="admin-header">
+            <h2 class="section-title">Admin Panel</h2>
+            <button id="viewProductsBtn" class="btn btn-outline">View Public Products</button>
+        </div>
 
-        <!-- Admin Controls -->
-        <div class="admin-controls">
+        <div class="admin-actions">
             <button id="addProductBtn" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Add New Product
             </button>
-            <button id="refreshProductsBtn" class="btn btn-outline">
-                <i class="fas fa-sync"></i> Refresh
-            </button>
         </div>
 
-        <!-- Admin Products Grid -->
-        <div id="adminProductsGrid" class="products-grid">
+        <div class="admin-products-grid" id="adminProductsGrid">
             <!-- Admin products will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<section id="about">
+    <div class="container">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonials-container">
+            <div class="testimonial">
+                <p class="testimonial-text">Amazing and kind staff. Always friendly and efficient!</p>
+                <p class="testimonial-author">- Sarah J.</p>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">Locally owned and operated by very good people. I love supporting local businesses!</p>
+                <p class="testimonial-author">- Michael T.</p>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">Wide selection and great prices. My go-to spot for quick snacks and drinks.</p>
+                <p class="testimonial-author">- Jessica L.</p>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">Great selection 🤍🥰. So convenient when I'm on my way to work.</p>
+                <p class="testimonial-author">- Emily R.</p>
+            </div>
+        </div>
+
+        <!-- Improvement Notice -->
+        <div class="improvement-notice">
+            <h4>Always Getting Better</h4>
+            <p>We've heard some feedback about soda temperature and occasional service issues. We're committed to continuous improvement and better service every day. Your satisfaction is our priority!</p>
         </div>
     </div>
 </section>
 
-<!-- Add/Edit Product Modal -->
-<div id="productModal" class="modal">
+<!-- Hours & Location -->
+<section class="bg-light" id="contact">
+    <div class="container">
+        <h2 class="section-title">Visit Us Today</h2>
+        <div class="hours-location">
+            <div class="hours">
+                <h3>Hours of Operation</h3>
+                <table class="hours-table">
+                    <tr>
+                        <td>Monday - Thursday</td>
+                        <td>8:00AM - 11:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Friday</td>
+                        <td>8:00AM - 11:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Saturday</td>
+                        <td>8:00 AM - 11:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Sunday</td>
+                        <td>8:00AM - 11:00 PM</td>
+                    </tr>
+                </table>
+                <p style="margin-top: 20px; font-style: italic;">Pull through anytime — we'll take care of you fast.</p>
+            </div>
+            <div class="location">
+                <h3>Our Location</h3>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--red);"></i> 1744 S Raccoon Rd, Austintown, Ohio</p>
+                <p><i class="fas fa-phone" style="color: var(--red);"></i> (330) 792-2026</p>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6014.841496624398!2d-80.7355814232611!3d41.08165277134039!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8833e35b539fb9a9%3A0xad2b3fbd3c11d7ff!2sPit%20Stop!5e0!3m2!1sen!2sus!4v1763933359807!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Pitstop Drive Thru</h3>
+                <p>Your local drive-thru for cold drinks, snacks, and essentials. Fast, friendly service since day one.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 1744 S Raccoon Rd, Austintown, OH</li>
+                    <li><i class="fas fa-phone"></i> (330) 792-2026</li>
+                    <li><i class="fas fa-clock"></i> Mon-Thu: 8AM-11PM</li>
+                    <li><i class="fas fa-clock"></i> Fri-Sat: 8AM-11PM</li>
+                    <li><i class="fas fa-clock"></i> Sun: 8AM-11PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Pitstop Drive Thru. All rights reserved. | Locally owned and operated in Austintown, Ohio</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2 id="productModalTitle">Add New Product</h2>
-        <form id="productForm">
-            <input type="hidden" id="productId">
+        <div class="modal-header">
+            <h2>Admin Login</h2>
+            <span class="close">&times;</span>
+        </div>
+        <form id="loginForm" class="modal-form">
+            <div id="loginMessage" class="message"></div>
             <div class="form-group">
-                <label for="productName">Product Name:</label>
-                <input type="text" id="productName" required>
-            </div>
-            <div class="form-group">
-                <label for="productDescription">Description:</label>
-                <textarea id="productDescription" rows="3"></textarea>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
-                <label for="productCategory">Category:</label>
-                <input type="text" id="productCategory" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="productPrice">Price:</label>
-                    <input type="number" id="productPrice" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="productQuantity">Quantity:</label>
-                    <input type="number" id="productQuantity" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="productImage">Image URL:</label>
-                <input type="text" id="productImage">
-            </div>
-            <div class="form-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="productAvailable" checked>
-                    Available
-                </label>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Save Product</button>
-                <button type="button" class="btn btn-outline" id="cancelProductBtn">Cancel</button>
-            </div>
+            <button type="submit" class="btn btn-primary btn-full">Login</button>
         </form>
     </div>
 </div>
 
-<!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <p>&copy; 2024 Store Inventory Viewer. All rights reserved.</p>
+<!-- Product Modal -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="productModalTitle">Add New Product</h2>
+            <span class="close">&times;</span>
+        </div>
+        <form id="productForm" class="modal-form">
+            <input type="hidden" id="productId">
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" name="productName" required>
+            </div>
+            <div class="form-group">
+                <label for="productDescription">Description</label>
+                <textarea id="productDescription" name="productDescription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="productCategory">Category</label>
+                <select id="productCategory" name="productCategory" required>
+                    <option value="">Select Category</option>
+                    <option value="Beer">Beer</option>
+                    <option value="Wine">Wine</option>
+                    <option value="Tobacco">Tobacco</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Soda">Soda</option>
+                    <option value="Pop">Pop</option>
+                    <option value="Energy Drinks">Energy Drinks</option>
+                    <option value="Convenience">Convenience</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="productPrice">Price ($)</label>
+                    <input type="number" id="productPrice" name="productPrice" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="productQuantity">Quantity</label>
+                    <input type="number" id="productQuantity" name="productQuantity" min="0" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="productImage">Image URL</label>
+                <input type="url" id="productImage" name="productImage">
+            </div>
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="productAvailable" name="productAvailable" checked>
+                <label for="productAvailable">Available</label>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="cancelProductBtn" class="btn btn-outline">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Product</button>
+            </div>
+        </form>
     </div>
-</footer>
+</div>
 
 <script src="script.js"></script>
 </body>

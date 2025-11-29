@@ -18,6 +18,8 @@ const adminPanelBtn = document.getElementById('adminPanelBtn');
 const addProductBtn = document.getElementById('addProductBtn');
 const categoryFilter = document.getElementById('categoryFilter');
 const searchInput = document.getElementById('searchInput');
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const navLinks = document.querySelector('.nav-links');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -41,6 +43,32 @@ function initializeApp() {
 }
 
 function setupEventListeners() {
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            if(targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if(targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu if open
+                navLinks.classList.remove('active');
+            }
+        });
+    });
+
     // Authentication
     loginBtn.addEventListener('click', showLoginModal);
     logoutBtn.addEventListener('click', logout);
@@ -63,6 +91,9 @@ function setupEventListeners() {
     // Filters
     categoryFilter.addEventListener('change', filterProducts);
     searchInput.addEventListener('input', debounce(filterProducts, 300));
+
+    // Load more button
+    document.getElementById('loadMoreBtn').addEventListener('click', loadMoreProducts);
 
     // Close modals when clicking outside
     window.addEventListener('click', function(event) {
@@ -186,7 +217,6 @@ function closeModals() {
 
 // Product Management Functions
 async function loadProducts() {
-    showLoading(true);
     try {
         const response = await fetch(`${API_BASE_URL}/public/products`);
         if (response.ok) {
@@ -199,9 +229,101 @@ async function loadProducts() {
             throw new Error('Failed to load products');
         }
     } catch (error) {
-        showMessage('Error loading products: ' + error.message, 'error');
-    } finally {
-        showLoading(false);
+        // For demo purposes, show sample products if API is not available
+        console.error('Error loading products:', error);
+        displaySampleProducts();
+    }
+}
+
+function displaySampleProducts() {
+    const sampleProducts = [
+        {
+            id: 1,
+            name: "Craft Beer Selection",
+            description: "Local and imported craft beers",
+            category: "Beer",
+            price: 8.99,
+            quantity: 24,
+            available: true,
+            imageUrl: ""
+        },
+        {
+            id: 2,
+            name: "Premium Red Wine",
+            description: "Fine selection of red wines",
+            category: "Wine",
+            price: 15.99,
+            quantity: 12,
+            available: true,
+            imageUrl: ""
+        },
+        {
+            id: 3,
+            name: "Premium Cigarettes",
+            description: "Various brands available",
+            category: "Tobacco",
+            price: 9.50,
+            quantity: 50,
+            available: true,
+            imageUrl: ""
+        },
+        {
+            id: 4,
+            name: "Potato Chips",
+            description: "Assorted flavors",
+            category: "Snacks",
+            price: 2.99,
+            quantity: 36,
+            available: true,
+            imageUrl: ""
+        },
+        {
+            id: 5,
+            name: "Soda 12-Pack",
+            description: "12-pack of assorted sodas",
+            category: "Pop",
+            price: 6.99,
+            quantity: 18,
+            available: true,
+            imageUrl: ""
+        },
+        {
+            id: 6,
+            name: "Energy Drink",
+            description: "Popular energy drink brands",
+            category: "Energy Drinks",
+            price: 3.49,
+            quantity: 0,
+            available: false,
+            imageUrl: ""
+        },
+        {
+            id: 7,
+            name: "Bottled Water",
+            description: "Purified bottled water",
+            category: "Convenience",
+            price: 1.99,
+            quantity: 30,
+            available: true,
+            imageUrl: ""
+        },
+        {
+            id: 8,
+            name: "Lottery Tickets",
+            description: "Various lottery games available",
+            category: "Other",
+            price: 2.00,
+            quantity: 100,
+            available: true,
+            imageUrl: ""
+        }
+    ];
+
+    displayProducts(sampleProducts, productsGrid);
+
+    // Also populate admin panel if logged in
+    if (currentUser) {
+        displayAdminProducts(sampleProducts);
     }
 }
 
@@ -232,6 +354,9 @@ async function loadCategories() {
         }
     } catch (error) {
         console.error('Error loading categories:', error);
+        // Use drive-thru specific categories for demo
+        const driveThruCategories = ['Beer', 'Wine', 'Tobacco', 'Snacks', 'Soda', 'Pop', 'Energy Drinks', 'Convenience', 'Other'];
+        populateCategoryFilter(driveThruCategories);
     }
 }
 
@@ -290,7 +415,7 @@ function createProductCard(product, isAdmin) {
             <h3 class="product-name">${product.name}</h3>
             <p class="product-description">${product.description || 'No description available'}</p>
             <div class="product-meta">
-                <div class="product-price">$${product.price}</div>
+                <div class="product-price">$${product.price.toFixed(2)}</div>
                 <div class="product-quantity">Stock: ${product.quantity}</div>
             </div>
             ${!product.available ? '<div class="out-of-stock">Out of Stock</div>' : ''}
@@ -422,12 +547,18 @@ function filterProducts() {
     });
 }
 
-// Utility Functions
-function showLoading(show) {
-    const loading = document.getElementById('loading');
-    loading.style.display = show ? 'block' : 'none';
+function loadMoreProducts() {
+    // In a real implementation, this would load the next page of products
+    // For demo purposes, we'll just show a message
+    showMessage('Loading more products...', 'success');
+
+    // Simulate API call delay
+    setTimeout(() => {
+        showMessage('No more products to load', 'error');
+    }, 1000);
 }
 
+// Utility Functions
 function showMessage(message, type) {
     // Create or find message container
     let messageDiv = document.getElementById('globalMessage');
@@ -482,31 +613,3 @@ function showPublicProducts() {
     adminPanel.style.display = 'none';
     document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
 }
-
-// Add some CSS for the global message
-const style = document.createElement('style');
-style.textContent = `
-    .btn-small {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-    
-    .out-of-stock {
-        background: #ff6b6b;
-        color: white;
-        padding: 4px 8px;
-        border-radius: 3px;
-        font-size: 0.8rem;
-        display: inline-block;
-        margin-bottom: 1rem;
-    }
-    
-    .no-products {
-        text-align: center;
-        padding: 3rem;
-        color: #666;
-        font-size: 1.1rem;
-        grid-column: 1 / -1;
-    }
-`;
-document.head.appendChild(style);
